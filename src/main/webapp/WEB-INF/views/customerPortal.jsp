@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h6>Loyalty Contest</h6>
+	<h5>Welcome ${user}</h5>
+	
+	
 </body>
 </html>

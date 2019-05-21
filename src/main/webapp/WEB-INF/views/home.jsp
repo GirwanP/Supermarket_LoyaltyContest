@@ -8,9 +8,9 @@
 <h1>
 	The Easy Shopping Departmental Store  
 </h1>
-<a href="/admin">Admin Page</a>
+<a href="adminlogin">Admin Page</a>
 <br/>
-<a href="/lchome">The Loyalty Contest</a>
+<a href="customerlogin">The Loyalty Contest</a>
 
 <P>  The time on the server is ${serverTime}. </P>
 
