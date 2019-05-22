@@ -11,6 +11,14 @@
 	<h6>Loyalty Contest</h6>
 	<h5>Welcome ${customer.email}</h5>
 	
+	<input type="submit" onclick="claimdaily()">
+	
 	
 </body>
+<script>
+	function claimdaily(){
+		
+		
+	}
+</script>
 </html>
