@@ -4,13 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+
 </head>
 <body>
-	<%@include file="navbar.jsp" %>
-	<h6>Loyalty Contest</h6>
-	<h5>Welcome ${customer.email}</h5>
-	
-	
+	<nav>
+		<ul><a href="">Home</a></ul>
+		<ul><a href="">Menu</a></ul>
+		<ul><a href="">Offer</a></ul>
+		<ul><a href="">About</a></ul>
+		<ul><a href="">Contact</a></ul>
+		<ul><a href="">Logout</a></ul>
+		
+	</nav>
 </body>
 </html>

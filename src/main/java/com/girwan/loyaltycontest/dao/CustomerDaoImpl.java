@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,8 +29,17 @@ public class CustomerDaoImpl implements  CustomerDao {
 	}
 
 	@Override
-	public boolean login(String un, String pw) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public boolean login(String em, String pw) {
+		Session sess=sessionFactory.getCurrentSession();
+		Criteria crt=sess.createCriteria(Customer.class);
+		crt.add(Restrictions.eq("email",em)).add(Restrictions.eq("password", pw));
+		
+		Customer c=(Customer)crt.uniqueResult();
+		System.out.println("Inside login");
+		if(c!=null){
+			return true;
+		}
 		return false;
 	}
 

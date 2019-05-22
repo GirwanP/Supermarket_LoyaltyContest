@@ -35,7 +35,7 @@
 		<div class="container-login100" style="background-image: url('resources/Login/images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<h3>Sign Up a new customer Account</h3>
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form action="customerSignUp" method="post" class="login100-form validate-form flex-sb flex-w">
 					
 					<div class="p-t-31 p-b-9">
 						<span class="txt1">
@@ -43,7 +43,7 @@
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "First Name is required">
-						<input class="input100" type="text" name="" >
+						<input class="input100" type="text" name="fName" >
 						<span class="focus-input100"></span>
 					</div>
 					
@@ -53,7 +53,7 @@
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Last Name is required">
-						<input class="input100" type="text" name="" >
+						<input class="input100" type="text" name="lName" >
 						<span class="focus-input100"></span>
 					</div>
 					<div class="p-t-31 p-b-9">
@@ -62,7 +62,7 @@
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Email is required">
-						<input class="input100" type="text" name="" >
+						<input class="input100" type="text" name="email" >
 						<span class="focus-input100"></span>
 					</div>
 					
@@ -72,20 +72,12 @@
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Phone is required">
-						<input class="input100" type="text" name="" >
+						<input class="input100" type="text" name="phone" >
 						<span class="focus-input100"></span>
 					</div>
 					
 					
-					<div class="p-t-31 p-b-9">
-						<span class="txt1">
-							Username
-						</span>
-					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" >
-						<span class="focus-input100"></span>
-					</div>
+					
 					
 					<div class="p-t-13 p-b-9">
 						<span class="txt1">
@@ -93,7 +85,7 @@
 						</span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" >
+						<input class="input100" type="password" name="password" >
 						<span class="focus-input100"></span>
 					</div>
 					<div class="p-t-13 p-b-9">
