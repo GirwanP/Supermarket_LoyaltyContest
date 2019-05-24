@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.girwan.loyaltycontest.model.Customer;
+import com.girwan.loyaltycontest.model.Score;
 
 @Repository
 public class CustomerDaoImpl implements  CustomerDao {
@@ -68,8 +69,17 @@ public class CustomerDaoImpl implements  CustomerDao {
 	}
 
 	@Override
-	public void updateScore(int id, int score) {
-		// TODO Auto-generated method stub
+	@Transactional
+	public void updateScore(String email, Score score) {
+		Session sess=sessionFactory.getCurrentSession();
+		Criteria crt=sess.createCriteria(Customer.class);
+		crt.add(Restrictions.eq("email", email));
+		Customer c=(Customer)crt.uniqueResult();
+		//List<Score> sl=c.;;
+		//sl.add(score);
+		c.updateScores(score);
+		sess.save(score);
+		sess.update(c);
 		
 	}
 
@@ -83,6 +93,17 @@ public class CustomerDaoImpl implements  CustomerDao {
 	public boolean isUserNameValid(String un) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	@Transactional
+	public Customer getByEmail(String email) {
+		Session sess=sessionFactory.getCurrentSession();
+		Criteria crt= sess.createCriteria(Customer.class);
+		crt.add(Restrictions.eq("email", email));
+		Customer c=(Customer)crt.uniqueResult();
+		System.out.println(c.getScores());
+		return c;
 	}
 	
 }

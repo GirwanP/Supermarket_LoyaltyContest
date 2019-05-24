@@ -36,6 +36,10 @@ public class Customer {
 	private int tPoints;
 	
 	
+	public void updateScores(Score scores) {
+		this.scores.add(scores);
+	}
+	
 	
 	public List<Score> getScores() {
 		return scores;

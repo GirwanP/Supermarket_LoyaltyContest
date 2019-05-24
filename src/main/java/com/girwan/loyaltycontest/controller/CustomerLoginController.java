@@ -2,6 +2,8 @@ package com.girwan.loyaltycontest.controller;
 
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.girwan.loyaltycontest.dao.CustomerDao;
 import com.girwan.loyaltycontest.model.Customer;
+import com.girwan.loyaltycontest.model.Score;
 
 @Controller
 //@RequestMapping("/customer")
@@ -36,11 +39,14 @@ public class CustomerLoginController {
 		if(cdao.login(c.getEmail(),c.getPassword())){
 			logger.info("login successful");
 			
-			session.setAttribute("activeuser", c.getUserName());
+			session.setAttribute("activeuserEmail", c.getEmail());
 			session.setMaxInactiveInterval(120);
 			
-			model.addAttribute("cusotmer",c.getUserName());
-			
+			//model.addAttribute("cusotmer",c.getUserName());
+			model.addAttribute("customer",cdao.getByEmail(c.getEmail()));
+			List<Score> score=cdao.getByEmail(session.getAttribute("activeuserEmail").toString()).getScores();
+			model.addAttribute("scoreList",score);
+		//	System.out.println(score);
 		return "customerPortal";
 		}
 		logger.info("Login failed");

@@ -4,16 +4,24 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
+<style type="text/css">
+	nav{background-color:#5F4C4C;
+		}
+	li a{display:block;color:white;}
+	li{float:right;
+		list-style-type:none;}
+</style>
 </head>
 <body>
 	<nav>
-		<ul><a href="">Home</a></ul>
-		<ul><a href="">Menu</a></ul>
-		<ul><a href="">Offer</a></ul>
-		<ul><a href="">About</a></ul>
-		<ul><a href="">Contact</a></ul>
-		<ul><a href="">Logout</a></ul>
+		<ul>
+		<li><a href="">Home</a></li>
+		<li><a href="">Menu</a></li>
+		<li><a href="">Offer</a></li>
+		<li><a href="">About</a></li>
+		<li><a href="">Contact</a></li>
+		<li><a href="">Logout</a></li>
+		</ul>
 		
 	</nav>
 </body>
