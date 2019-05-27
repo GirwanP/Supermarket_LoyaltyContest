@@ -1,12 +1,14 @@
 package com.girwan.loyaltycontest.controller;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -55,13 +57,14 @@ public class pointsClaimController {
 		boolean aNClaimed = false;
 		long diff=(new java.util.Date().getTime()-((Score)scores.toArray()[0]).getCheckinDate().getTime() );
 		logger.info(Long.toString(diff));
+		
 		System.out.println(tPeriod);
 		if ( diff>=tPeriod){
 			System.out.println("already claimed point condition check:passed");
 			aNClaimed = false;
 			
 			Score score = new Score();
-			score.setCheckinDate(new Date(new java.util.Date().getTime()));
+			score.setCheckinDate(new Timestamp(new java.util.Date().getTime()));
 			score.setPoints(30);
 			cdao.updateScore(session.getAttribute("activeuserEmail").toString(), score);
 			
@@ -100,14 +103,14 @@ public class pointsClaimController {
 			}
 		});
 		
-		long tPeriod=2*6000L;
+		long tPeriod=1*6000L;
 		boolean aNClaimed =false ;
 		if (  (new java.util.Date().getTime()-((Score)scores.toArray()[0]).getCheckinDate().getTime() )>=tPeriod){
 			System.out.println("already not claimed point condition check:passed");
 			//aNClaimed = true;
 			
 			Score score = new Score();
-			score.setCheckinDate(new Date(new java.util.Date().getTime()));
+			score.setCheckinDate(new Timestamp(new java.util.Date().getTime()));
 			score.setPoints(100);
 			cdao.updateScore(session.getAttribute("activeuserEmail").toString(), score);
 

@@ -1,6 +1,7 @@
 package com.girwan.loyaltycontest.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,12 +13,12 @@ public class Score {
 	@Id
 	@GeneratedValue
 	private int id;
-	private Date checkinDate;
+	private Timestamp checkinDate;
 	private int points;
-	public Date getCheckinDate() {
+	public Timestamp getCheckinDate() {
 		return checkinDate;
 	}
-	public void setCheckinDate(Date checkinDate) {
+	public void setCheckinDate(Timestamp checkinDate) {
 		this.checkinDate = checkinDate;
 	}
 	public int getPoints() {
