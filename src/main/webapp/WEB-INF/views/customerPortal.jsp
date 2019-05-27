@@ -13,7 +13,13 @@
 	<h6>Loyalty Contest</h6>
 	<h5>Welcome ${customer.email}</h5>
 
-	<input type="submit" onclick="claimdaily()" id="dailyPoints">
+	<c:if test="${aNClaimed}">
+		
+		<input type="submit" onclick="claimdaily()" id="dailyPoints" value="claim daily points" >
+	</c:if>
+	<c:if test="${!aNClaimed}">
+	 <p>You have already claimed your points for today</p>
+	</c:if>
 	<table>
 		<thead>
 			<tr>
@@ -22,15 +28,15 @@
 			</tr>
 		</thead>
 		<tbody>
-		
-			<c:forEach var="score" items="${scoreList}">
+
+			<c:forEach var="score" items="${scoreList}" varStatus="loop">
 				<tr>
-					
+					<td>${loop.index+1}</td>
 					<td>${score.checkinDate}</td>
 					<td>${score.points}</td>
 				</tr>
 			</c:forEach>
-			
+
 		</tbody>
 	</table>
 
