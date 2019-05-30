@@ -1,11 +1,8 @@
 package com.girwan.loyaltycontest.controller;
 
-import java.awt.Color;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.girwan.loyaltycontest.dao.CustomerDao;
 import com.girwan.loyaltycontest.model.Customer;
 import com.girwan.loyaltycontest.model.Score;
+import com.girwan.loyaltycontest.services.MyServices;
 
 @Controller
 // @RequestMapping("/customer")
@@ -41,7 +39,7 @@ public class CustomerLoginController {
 
 	@RequestMapping(value = "/customerlogin", method = RequestMethod.POST)
 	public String login(HttpSession session, @ModelAttribute Customer c, Model model) {
-		logger.info("submitted data:" + c.getEmail() + c.getPassword());
+		logger.info("submitted data:" + c.getEmail() +" p:"+ c.getPassword());
 		if (cdao.login(c.getEmail(), c.getPassword())) {
 			logger.info("login successful");
 
@@ -60,16 +58,24 @@ public class CustomerLoginController {
 			});
 
 			long tPeriod = 2*60000;
-			boolean aNClaimed = true;
+			
+			boolean daNClaimed = true;
+			boolean maNClaimed=true;
+			boolean waNClaimed=true;
+			
+			
 			long diff=(new java.util.Date().getTime()-((Score)scores.toArray()[0]).getCheckinDate().getTime() );
 			logger.info(Long.toString(diff*(1)));
 			System.out.println(tPeriod);
+			
 			if (diff<=tPeriod) {
 				System.out.println("already claimed point condition check:passed");
-				aNClaimed = false;
+				daNClaimed = false;
 			}
-
-			model.addAttribute("aNClaimed", aNClaimed);
+			
+			model.addAttribute("waNClaimed",waNClaimed);
+			model.addAttribute("maNClaimed", maNClaimed);
+			model.addAttribute("daNClaimed", daNClaimed);
 			model.addAttribute("scoreList", scores);
 			// System.out.println(score);
 			return "customerPortal";
@@ -85,4 +91,8 @@ public class CustomerLoginController {
 		session.invalidate();
 		return "customerLogin";
 	}
+	
+	
+	
+	
 }

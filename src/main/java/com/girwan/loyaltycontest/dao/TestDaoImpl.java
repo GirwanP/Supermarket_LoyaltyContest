@@ -7,21 +7,20 @@ import javax.annotation.Resource;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.girwan.loyaltycontest.model.Customer;
 import com.girwan.loyaltycontest.model.Score;
-
 @Repository
-public class CustomerDaoImpl implements  CustomerDao {
-	
+public class TestDaoImpl {
 	@Resource
 	private SessionFactory sessionFactory;
 	
 	
-	@Override
+	
 	@Transactional
 	public void signup(Customer c) {
 		Session sess= sessionFactory.getCurrentSession();
@@ -29,7 +28,7 @@ public class CustomerDaoImpl implements  CustomerDao {
 		
 	}
 
-	@Override
+	
 	@Transactional
 	public boolean login(String em, String pw) {
 		Session sess=sessionFactory.getCurrentSession();
@@ -44,31 +43,30 @@ public class CustomerDaoImpl implements  CustomerDao {
 		return false;
 	}
 
-	@Override
 	public List<Customer> getAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public Customer getById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	
 	public void removeCustomer(int id) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void updateCustomer(Customer c) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	@Transactional
 	public void updateScore(String email, Score score) {
 		Session sess=sessionFactory.getCurrentSession();
@@ -83,19 +81,19 @@ public class CustomerDaoImpl implements  CustomerDao {
 		
 	}
 
-	@Override
+	
 	public int getScore(int id) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	
 	public boolean isUserNameValid(String un) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	
 	@Transactional
 	public Customer getByEmail(String email) {
 //		Session sess=sessionFactory.getCurrentSession();
@@ -107,17 +105,22 @@ public class CustomerDaoImpl implements  CustomerDao {
 //		System.out.println("email:"+ c.getEmail());
 //		List<Score> s=c.getScores();
 //		System.out.println("************above this****************");
-//		//sess.;
+		//sess.;
 		
-		Session sess=sessionFactory.getCurrentSession();
-		Criteria crt= sess.createCriteria(Customer.class);
+		
+		SessionFactory sf=new Configuration().configure().buildSessionFactory();
+		Session sess=sf.openSession();
+		sess.beginTransaction();
+		Criteria crt=sess.createCriteria(Customer.class);
 		crt.add(Restrictions.eq("email", email));
 		Customer c=(Customer)crt.uniqueResult();
-		System.out.println(c.getScores());
+		
+		sess.getTransaction().commit();
+		sess.close();
 		
 		
 		return c;
 		
 	}
-	
+
 }

@@ -13,13 +13,26 @@
 	<h6>Loyalty Contest</h6>
 	<h5>Welcome ${customer.email}</h5>
 
-	<c:if test="${aNClaimed}">
+	<c:if test="${daNClaimed}">
 		
 		<input type="submit" onclick="claimdaily()" id="dailyPoints" value="claim daily points" >
 	</c:if>
-	<c:if test="${!aNClaimed}">
+	<c:if test="${!daNClaimed}">
 	 <p>You have already claimed your points for today</p>
 	</c:if>
+	<c:if test="${waNClaimed}">
+		<form action="claimWeekly" method="post"><input type="submit" onclick="claimdaily()" id="dailyPoints" value="claim weakly points" ></form>
+	</c:if>
+	<c:if test="${!waNClaimed}">
+	 <p>You have already claimed your points for today</p>
+	</c:if>
+	<c:if test="${maNClaimed}">
+		<form action="claimMonthly" method="post"><input type="submit" onclick="claimdaily()" id="dailyPoints" value="claim Monthly points" ></form>
+	</c:if>
+	<c:if test="${!maNClaimed}">
+	 <p>You have already claimed your points for today</p>
+	</c:if>
+	
 	<table>
 		<thead>
 			<tr>
