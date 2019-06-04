@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.girwan.loyaltycontest.model.Customer;
 import com.girwan.loyaltycontest.model.Score;
 @Repository
-public class TestDaoImpl {
+public class TestDaoImpl implements TestDao{
 	@Resource
 	private SessionFactory sessionFactory;
 	
@@ -96,28 +96,33 @@ public class TestDaoImpl {
 	
 	@Transactional
 	public Customer getByEmail(String email) {
-//		Session sess=sessionFactory.getCurrentSession();
-//		Criteria crt= sess.createCriteria(Customer.class);
-//		crt.add(Restrictions.eq("email", email));
-//		Customer c=(Customer)crt.uniqueResult();
-//		
-//		System.out.println("*************below this************");
-//		System.out.println("email:"+ c.getEmail());
-//		List<Score> s=c.getScores();
-//		System.out.println("************above this****************");
+		System.out.println("inside Testaoimpl getByEmail method");
+		System.out.println("received email is : "+email);
+		
+		
+		Session sess=sessionFactory.getCurrentSession();
+		Criteria crt= sess.createCriteria(Customer.class);
+		crt.add(Restrictions.eq("email", email));
+		Customer c=(Customer)crt.uniqueResult();
+		System.out.println(c.getScores());
+		
+		System.out.println("*************below this************");
+		System.out.println("email:"+ c.getEmail());
+		List<Score> s=c.getScores();
+		System.out.println("************above this****************");
 		//sess.;
 		
 		
-		SessionFactory sf=new Configuration().configure().buildSessionFactory();
-		Session sess=sf.openSession();
-		sess.beginTransaction();
-		Criteria crt=sess.createCriteria(Customer.class);
-		crt.add(Restrictions.eq("email", email));
-		Customer c=(Customer)crt.uniqueResult();
-		
-		sess.getTransaction().commit();
-		sess.close();
-		
+//		SessionFactory sf=new Configuration().configure().buildSessionFactory();
+//		Session sess=sf.openSession();
+//		sess.beginTransaction();
+//		Criteria crt=sess.createCriteria(Customer.class);
+//		crt.add(Restrictions.eq("email", email));
+//		Customer c=(Customer)crt.uniqueResult();
+//		
+//		sess.getTransaction().commit();
+//		sess.close();
+//		
 		
 		return c;
 		

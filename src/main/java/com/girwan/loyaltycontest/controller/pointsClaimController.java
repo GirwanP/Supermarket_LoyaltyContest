@@ -29,6 +29,16 @@ public class pointsClaimController {
 
 	@Autowired
 	private CustomerDao cdao;
+	
+	@Autowired
+	private MyServices service;
+	
+	@Autowired
+	private PointsUpdaterService puservice;
+	
+	
+	
+	
 
 	@RequestMapping(value = "/getPoints", method = RequestMethod.GET)
 	public String claimGet(HttpServletRequest req, HttpSession session, Model model, HttpServletResponse res) {
@@ -39,31 +49,16 @@ public class pointsClaimController {
 			return "customerLogin";
 		}
 
-		List<Score> scores = cdao.getByEmail(session.getAttribute("activeuserEmail").toString()).getScores();
-
-		// int l=scores.size();
-
-		Collections.sort(scores, new Comparator<Score>() {
-			@Override
-			public int compare(Score s1, Score s2) {
-				return s2.getCheckinDate().compareTo(s1.getCheckinDate());
-			}
-		});
-
+		List<Score> scores =service.getSortedList(session.getAttribute("activeuserEmail").toString());
+		
 		long tPeriod =MyConstants.dayLength;
-		
-		boolean daNClaimed = true;
-		boolean maNClaimed=true;
-		boolean waNClaimed=true;
-		
+
 		long diff = (new java.util.Date().getTime() - ((Score) scores.toArray()[0]).getCheckinDate().getTime());
 		logger.info(Long.toString(diff));
-
 		System.out.println(tPeriod);
 		if (diff >= tPeriod) {
 			System.out.println("already claimed point condition check:passed");
-			daNClaimed = false;
-
+			//daNClaimed = false;
 			Score score = new Score();
 			score.setCheckinDate(new Timestamp(new java.util.Date().getTime()));
 			score.setPoints(MyConstants.dailyPoint);
@@ -72,18 +67,8 @@ public class pointsClaimController {
 			scores.add(0, score);
 
 		}
-		//
-		// for (Score s : scores) {
-		//
-		// System.out.println(s);
-		// }
-		model.addAttribute("customer", cdao.getByEmail(session.getAttribute("activeuserEmail").toString()));
-		// model.addAttribute("activeuserEmail",session.getAttribute("activeuserEmail").toString());
-		model.addAttribute("daNClaimed", daNClaimed);
-		model.addAttribute("waNClaimed", waNClaimed);
-		model.addAttribute("maNClaimed", maNClaimed);
-		model.addAttribute("scoreList", scores);
-		return "customerPortal";
+		
+		return "redirect:getCustomerPortal";
 	}
 
 	@RequestMapping(value = "/getPoints", method = RequestMethod.POST)
@@ -94,17 +79,9 @@ public class pointsClaimController {
 			return "customerLogin";
 		}
 
-		List<Score> scores = cdao.getByEmail(session.getAttribute("activeuserEmail").toString()).getScores();
-
-		// int l=scores.size();
-
-		Collections.sort(scores, new Comparator<Score>() {
-			@Override
-			public int compare(Score s1, Score s2) {
-				return s2.getCheckinDate().compareTo(s1.getCheckinDate());
-			}
-		});
-
+		
+		List<Score> scores =service.getSortedList(session.getAttribute("activeuserEmail").toString());
+		
 		long tPeriod = 1 * 6000L;
 		
 		boolean daNClaimed = true;
@@ -115,7 +92,6 @@ public class pointsClaimController {
 		if ((new java.util.Date().getTime() - ((Score) scores.toArray()[0]).getCheckinDate().getTime()) >= tPeriod) {
 			System.out.println("already not claimed point condition check:passed");
 			// aNClaimed = true;
-
 			Score score = new Score();
 			score.setCheckinDate(new Timestamp(new java.util.Date().getTime()));
 			score.setPoints(MyConstants.dailyPoint);
@@ -144,66 +120,44 @@ public class pointsClaimController {
 			session.invalidate();
 			return "customerLogin";
 		}
-
-		List<Score> scores = cdao.getByEmail(session.getAttribute("activeuserEmail").toString()).getScores();
-
-		Collections.sort(scores, new Comparator<Score>() {
-			@Override
-			public int compare(Score s1, Score s2) {
-				return s2.getCheckinDate().compareTo(s1.getCheckinDate());
-			}
-		});
+		List<Score> scores =service.getSortedList(session.getAttribute("activeuserEmail").toString());
 
 		long tPeriod = MyConstants.dayLength;
-		boolean daNClaimed=true;
-		boolean maNClaimed=true;
-		boolean waNClaimed=true;
-
-		model.addAttribute("waNClaimed", waNClaimed);
-		model.addAttribute("maNClaimed", maNClaimed);
-		
 		
 		long diff = (new java.util.Date().getTime() - ((Score) scores.toArray()[0]).getCheckinDate().getTime());
 		logger.info(Long.toString(diff));
-
 		System.out.println(tPeriod);
 		if (diff >= tPeriod) {
 			System.out.println("already claimed point condition check:passed");
-			daNClaimed = false;
-
+			//daNClaimed = false;
 			Score score = new Score();
 			score.setCheckinDate(new Timestamp(new java.util.Date().getTime()));
 			score.setPoints(MyConstants.weeklyPoint);
 			cdao.updateScore(session.getAttribute("activeuserEmail").toString(), score);
-
 			scores.add(0, score);
 
 		}
-
-		model.addAttribute("customer", cdao.getByEmail(session.getAttribute("activeuserEmail").toString()));
-		// model.addAttribute("activeuserEmail",session.getAttribute("activeuserEmail").toString());
-		model.addAttribute("daNClaimed", daNClaimed);
-		model.addAttribute("scoreList", scores);
-		return "customerPortal";
+	
+		return "redirect:getCustomerPortal";
 	}
 
+	
+	
+	
+	
+	
+	
 	@RequestMapping(value = "/claimMonthly", method = RequestMethod.POST)
 	public String claimMonthly(HttpSession session, Model model) {
+		System.out.println("inside claim monthly controller");
 
 		if (org.springframework.util.StringUtils.isEmpty(session.getAttribute("activeuserEmail"))) {
 			return "customerLogin";
 		}
 
-		List<Score> scores = new MyServices().getSortedList(session.getAttribute("activeuserEmail").toString());
-		
+		List<Score> scores = service.getSortedList(session.getAttribute("activeuserEmail").toString());
 		
 		boolean alreadyClaimed = true;
-		boolean daNClaimed=true;
-		boolean waNClaimed=true;
-		
-		model.addAttribute("customer", cdao.getByEmail(session.getAttribute("activeuserEmail").toString()));
-		model.addAttribute("daNClaimed", daNClaimed);
-		model.addAttribute("waNClaimed",waNClaimed);
 		
 		if (!alreadyClaimed) {
 			System.out.println("implement the claim validity logic here");
@@ -212,14 +166,10 @@ public class pointsClaimController {
 			return "customerPortal";
 		}
 		
-		boolean status = new PointsUpdaterService().updatePoint(MyConstants.monthlyPoint,
+		boolean status = puservice.updatePoint(MyConstants.monthlyPoint,
 				session.getAttribute("activeuserEmail").toString());
 		System.out.println(status);
 		
-		model.addAttribute("maNClaimed", alreadyClaimed);
-		//scores.add(arg0)
-		model.addAttribute("scoreList", scores);
-		
-		return "customerPortal";
+		return "redirect:getCustomerPortal";
 	}
 }

@@ -17,7 +17,10 @@
 	<!-- Package location which contain all the spring annotations like @Autowire, 
 		@Repository, @Resource -->
 	<context:component-scan base-package="com.girwan.loyaltycontest" />
-
+	<!--  //testing whether it work or not
+	<context:component-scan base-package="com.girwan.loyaltycontest.services" />
+	 -->
+	 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
 

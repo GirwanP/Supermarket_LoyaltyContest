@@ -98,23 +98,21 @@ public class CustomerDaoImpl implements  CustomerDao {
 	@Override
 	@Transactional
 	public Customer getByEmail(String email) {
+		System.out.println("inside CustomerDaoImpl getByEmail method");
 //		Session sess=sessionFactory.getCurrentSession();
 //		Criteria crt= sess.createCriteria(Customer.class);
 //		crt.add(Restrictions.eq("email", email));
 //		Customer c=(Customer)crt.uniqueResult();
-//		
 //		System.out.println("*************below this************");
 //		System.out.println("email:"+ c.getEmail());
 //		List<Score> s=c.getScores();
 //		System.out.println("************above this****************");
-//		//sess.;
 		
 		Session sess=sessionFactory.getCurrentSession();
 		Criteria crt= sess.createCriteria(Customer.class);
 		crt.add(Restrictions.eq("email", email));
 		Customer c=(Customer)crt.uniqueResult();
 		System.out.println(c.getScores());
-		
 		
 		return c;
 		

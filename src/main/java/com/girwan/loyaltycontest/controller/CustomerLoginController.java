@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.girwan.loyaltycontest.dao.CustomerDao;
 import com.girwan.loyaltycontest.model.Customer;
 import com.girwan.loyaltycontest.model.Score;
+import com.girwan.loyaltycontest.services.MyConstants;
 import com.girwan.loyaltycontest.services.MyServices;
 
 @Controller
@@ -30,26 +31,30 @@ public class CustomerLoginController {
 
 	@RequestMapping(value = "/customerlogin", method = RequestMethod.GET)
 	public String getLoginForm(HttpSession session) {
-		if (!StringUtils.isEmpty(session.getAttribute("activeuserEmail"))) {
-
+		
 			logger.info("Acoount was already logged in");
-		}
+			if(!org.springframework.util.StringUtils.isEmpty(session.getAttribute("activeuserEmail"))){
+				return "redirect:getCustomerPortal";
+			}
+		
 		return "customerLogin";
 	}
 
 	@RequestMapping(value = "/customerlogin", method = RequestMethod.POST)
 	public String login(HttpSession session, @ModelAttribute Customer c, Model model) {
 		logger.info("submitted data:" + c.getEmail() +" p:"+ c.getPassword());
+		
 		if (cdao.login(c.getEmail(), c.getPassword())) {
 			logger.info("login successful");
 
 			session.setAttribute("activeuserEmail", c.getEmail());
-			session.setMaxInactiveInterval(150);
-
+			session.setMaxInactiveInterval(MyConstants.maxInactiveSessionDuration);
+			
+			/*
 			// model.addAttribute("cusotmer",c.getUserName());
 			model.addAttribute("customer", cdao.getByEmail(c.getEmail()));
 			List<Score> scores = cdao.getByEmail(session.getAttribute("activeuserEmail").toString()).getScores();
-
+			
 			Collections.sort(scores, new Comparator<Score>() {
 				// @Override
 				public int compare(Score s1, Score s2) {
@@ -62,7 +67,6 @@ public class CustomerLoginController {
 			boolean daNClaimed = true;
 			boolean maNClaimed=true;
 			boolean waNClaimed=true;
-			
 			
 			long diff=(new java.util.Date().getTime()-((Score)scores.toArray()[0]).getCheckinDate().getTime() );
 			logger.info(Long.toString(diff*(1)));
@@ -77,8 +81,9 @@ public class CustomerLoginController {
 			model.addAttribute("maNClaimed", maNClaimed);
 			model.addAttribute("daNClaimed", daNClaimed);
 			model.addAttribute("scoreList", scores);
-			// System.out.println(score);
-			return "customerPortal";
+			
+			*/ // this work will be done in the customerportal contraller
+			return "redirect:getCustomerPortal";
 		}
 		logger.info("Login failed");
 		model.addAttribute("error", "Invalid Username Or password");
@@ -87,12 +92,8 @@ public class CustomerLoginController {
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session) {
-
 		session.invalidate();
 		return "customerLogin";
 	}
-	
-	
-	
 	
 }
